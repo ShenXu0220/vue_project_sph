@@ -10,22 +10,35 @@ export default new VueRouter({
     {
       path:'/home',
       name:'home',
-      component: () => import ('@/pages/Home')
+      component: () => import ('@/pages/Home'),
+      meta:{
+        showFooter: true
+      }
     },
     {
       path:'/login',
       name:'login',
-      component: () => import ('@/pages/Login')
+      component: () => import ('@/pages/Login'),
+      meta:{
+        showFooter: false
+      }
+      
     },
     {
       path:'/register',
       name:'register',
-      component: () => import ('@/pages/Register')
+      component: () => import ('@/pages/Register'),
+      meta:{
+        showFooter: false
+      }
     },
     {
       path:'/search',
       name:'search',
-      component: () => import ('@/pages/Search')
+      component: () => import ('@/pages/Search'),
+      meta:{
+        showFooter: true
+      }
     },
   ]
 })
