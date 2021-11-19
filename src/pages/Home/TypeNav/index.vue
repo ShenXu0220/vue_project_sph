@@ -14,11 +14,11 @@
                 <div class="subitem">
                   <dl class="fore" v-for="twoList in oneList.categoryChild" :key="twoList.categoryId">
                     <dt>
-                      <a href="">{{twoList.categoryName}}</a>
+                      <a href="" class="category-child">{{twoList.categoryName}}</a>
                     </dt>
                     <dd>
                       <em v-for="threeList in twoList.categoryChild" :key="threeList.categoryId">
-                        <a href="">{{threeList.categoryName}}</a>
+                        <a href="" class="category-child">{{threeList.categoryName}}</a>
                       </em>
                     </dd>
                   </dl>
@@ -164,10 +164,22 @@ export default {
                   }
                 }
               }
+              .category-child{
+                &:hover{
+                  color: #e1251b;
+                  font-weight: bold;
+                }
+              }
             }
           }
 
           &:hover {
+            background: #e1251b;
+            h3{
+              a{
+                color: #fff;
+              }
+            }
             .item-list {
               display: block;
             }
