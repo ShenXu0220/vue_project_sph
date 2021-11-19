@@ -5,7 +5,7 @@ import 'nprogress/nprogress.css'
 
 // 进行一些全局的配置
 const ajax = axios.create({
-  baseURL:'https://api.uixsj.cn',
+  baseURL:'/api',
   timeout: 5000
 })
 
