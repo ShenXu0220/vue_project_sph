@@ -37,7 +37,7 @@
             type="text"
             id="autocomplete"
             class="input-error input-xxlarge"
-            v-model="value"
+            v-model="keyword"
           />
           <button
             @click="toSearch"
@@ -57,16 +57,20 @@ export default {
   name: "Header",
   data() {
     return {
-      value: "",
+      keyword: "",
     };
   },
   methods: {
     toSearch() {
-      this.$router.push("/search");
-      let obj = {
-        keyword: this.value,
-      };
-      this.$store.dispatch("getSearchList", obj);
+      // console.log(this.$route.query)
+      const {query} = this.$route
+      this.$router.push({
+        path:"/search",
+        query:{
+          ...query,
+          keyword:this.keyword
+        }
+      }); 
     },
   },
 };

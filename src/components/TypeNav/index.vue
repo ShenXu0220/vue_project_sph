@@ -86,13 +86,14 @@ export default {
     toSearch(event) {
       let { id, level } = event.target.dataset;
       let value = event.target.innerText;
-      // console.log(event.target.innerText)
-      // console.log(level, id)
+      // console.log(this.$route.query.keyword)
+      let {keyword} = this.$route.query
       this.$router.push({
         path: "/search",
         query: {
           ["category" + level + "Id"]: id,
           categoryName: value,
+          keyword
         },
       });
     },
