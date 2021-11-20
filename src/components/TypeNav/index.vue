@@ -1,32 +1,56 @@
 <template>
- <!-- 商品分类导航 -->
+  <!-- 商品分类导航 -->
   <div class="type-nav">
     <div class="container">
-      <div class="nav-left">
+      <div
+        class="nav-left"
+        @mouseenter="showNav = true"
+        @mouseleave="handleMouseLeave"
+      >
         <h2 class="all">全部商品分类</h2>
-        <div class="sort">
-          <div class="all-sort-list2" v-for="oneList in categoryList" :key="oneList.categoryId">
-            <div class="item">
-              <h3>
-                <a href="">{{oneList.categoryName}}</a>
-              </h3>
-              <div class="item-list clearfix">
-                <div class="subitem">
-                  <dl class="fore" v-for="twoList in oneList.categoryChild" :key="twoList.categoryId">
-                    <dt>
-                      <a @click.prevent="categoryJump(twoList.categoryId,twoList.categoryName)" href="" class="category-child">{{twoList.categoryName}}</a>
-                    </dt>
-                    <dd>
-                      <em v-for="threeList in twoList.categoryChild" :key="threeList.categoryId">
-                        <a @click.prevent="categoryJump(threeList.categoryId,threeList.categoryName)" href="" class="category-child">{{threeList.categoryName}}</a>
-                      </em>
-                    </dd>
-                  </dl>
+        <transition enter-active-class="animate__fadeIn" leave-active-class="animate__fadeOut">
+          <div class="sort animate__animated" v-show="showNav">
+            <div class="all-sort-list2" @click.prevent="toSearch">
+              <div class="item" v-for="c1 in categoryList" :key="c1.categoryId">
+                <h3>
+                  <a href="" :data-id="c1.categoryId" data-level="1">{{
+                    c1.categoryName
+                  }}</a>
+                </h3>
+                <div class="item-list clearfix">
+                  <div class="subitem">
+                    <dl
+                      class="fore"
+                      v-for="c2 in c1.categoryChild"
+                      :key="c2.categoryId"
+                    >
+                      <dt>
+                        <a
+                          href=""
+                          class="category-child"
+                          :data-id="c2.categoryId"
+                          data-level="2"
+                          >{{ c2.categoryName }}</a
+                        >
+                      </dt>
+                      <dd>
+                        <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
+                          <a
+                            href=""
+                            class="category-child"
+                            :data-id="c3.categoryId"
+                            data-level="3"
+                            >{{ c3.categoryName }}</a
+                          >
+                        </em>
+                      </dd>
+                    </dl>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </transition>
       </div>
       <nav class="nav">
         <a href="###">服装城</a>
@@ -43,32 +67,46 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from "vuex";
+import 'animate.css'
 export default {
   name: "TypeNav",
-  computed:{
+  data() {
+    return {
+      showNav: false,
+    };
+  },
+  computed: {
     ...mapState({
-      categoryList: state => state.home.categoryList
-    })
+      categoryList: (state) => state.home.categoryList,
+    }),
   },
-  data(){
-    return{
-    }
-  },
-  methods:{
-    categoryJump(id,name){
-      console.log(id)
-      console.log(name)
-      let searchObj = {
-        categoryId: id,
-        categoryName: name
+
+  methods: {
+    toSearch(event) {
+      let { id, level } = event.target.dataset;
+      let value = event.target.innerText;
+      // console.log(event.target.innerText)
+      // console.log(level, id)
+      this.$router.push({
+        path: "/search",
+        query: {
+          ["category" + level + "Id"]: id,
+          categoryName: value,
+        },
+      });
+    },
+    handleMouseLeave() {
+      if (this.$route.path !== "/home") {
+        this.showNav = false;
       }
-      this.$router.push(`/search?categoryName=手机`)
+    },
+  },
+  mounted() {
+    if (this.$route.path === "/home") {
+      this.showNav = true;
     }
   },
-  mounted(){
-    this.$store.dispatch('getCategoryList')
-  }
 };
 </script>
 
@@ -112,6 +150,7 @@ export default {
       position: absolute;
       background: #fafafa;
       z-index: 999;
+      --animate-duration: 0.3s;
 
       .all-sort-list2 {
         .item {
@@ -179,8 +218,8 @@ export default {
                   }
                 }
               }
-              .category-child{
-                &:hover{
+              .category-child {
+                &:hover {
                   color: #e1251b;
                   font-weight: bold;
                 }
@@ -190,8 +229,8 @@ export default {
 
           &:hover {
             background: #e1251b;
-            h3{
-              a{
+            h3 {
+              a {
                 color: #fff;
               }
             }
