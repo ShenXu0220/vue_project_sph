@@ -14,11 +14,11 @@
                 <div class="subitem">
                   <dl class="fore" v-for="twoList in oneList.categoryChild" :key="twoList.categoryId">
                     <dt>
-                      <a href="" class="category-child">{{twoList.categoryName}}</a>
+                      <a @click.prevent="categoryJump(twoList.categoryId,twoList.categoryName)" href="" class="category-child">{{twoList.categoryName}}</a>
                     </dt>
                     <dd>
                       <em v-for="threeList in twoList.categoryChild" :key="threeList.categoryId">
-                        <a href="" class="category-child">{{threeList.categoryName}}</a>
+                        <a @click.prevent="categoryJump(threeList.categoryId,threeList.categoryName)" href="" class="category-child">{{threeList.categoryName}}</a>
                       </em>
                     </dd>
                   </dl>
@@ -50,6 +50,21 @@ export default {
     ...mapState({
       categoryList: state => state.home.categoryList
     })
+  },
+  data(){
+    return{
+    }
+  },
+  methods:{
+    categoryJump(id,name){
+      console.log(id)
+      console.log(name)
+      let searchObj = {
+        categoryId: id,
+        categoryName: name
+      }
+      this.$router.push(`/search?categoryName=手机`)
+    }
   },
   mounted(){
     this.$store.dispatch('getCategoryList')

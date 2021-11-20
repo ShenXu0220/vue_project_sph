@@ -4,13 +4,13 @@ import {reqCategoryList} from '@/api/index'
 const actions = {
   async getCategoryList(miniStore){
     let result = await reqCategoryList()
-    // console.log(result)
+    console.log(result)
     if(result.code === 200){
       miniStore.commit('SAVE_CATEGORY_LIST', result.data.slice(0,15))
     }else{
       alert(result.message)
     }
-  }
+  },
 }
 
 const mutations = {

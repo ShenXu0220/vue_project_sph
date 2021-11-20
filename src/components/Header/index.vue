@@ -37,8 +37,13 @@
             type="text"
             id="autocomplete"
             class="input-error input-xxlarge"
+            v-model="value"
           />
-          <button @click="toSearch" class="sui-btn btn-xlarge btn-danger" type="button">
+          <button
+            @click="toSearch"
+            class="sui-btn btn-xlarge btn-danger"
+            type="button"
+          >
             搜索
           </button>
         </form>
@@ -50,11 +55,20 @@
 <script>
 export default {
   name: "Header",
-  methods:{
-    toSearch(){
-      this.$router.push('/search')
-    }
-  }
+  data() {
+    return {
+      value: "",
+    };
+  },
+  methods: {
+    toSearch() {
+      this.$router.push("/search");
+      let obj = {
+        keyword: this.value,
+      };
+      this.$store.dispatch("getSearchList", obj);
+    },
+  },
 };
 </script>
 
