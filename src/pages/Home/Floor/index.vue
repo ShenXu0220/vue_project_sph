@@ -76,7 +76,7 @@ import 'swiper/css/swiper.min.css'
 			new Swiper('.floor-swiper', {
 				autoplay: { //自动轮播
 					delay: 2000, //自动轮播间隔时间
-					disableOnInteraction: true, //自动轮播期间，鼠标一旦介入操作，自动轮播是否停止
+					disableOnInteraction: false, //自动轮播期间，鼠标一旦介入操作，自动轮播是否停止
 				},
 				pagination: { //分页器
 					el: '.swiper-pagination',
