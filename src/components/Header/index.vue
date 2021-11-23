@@ -68,7 +68,7 @@ export default {
         path:"/search",
         query:{
           ...query,
-          keyword:this.keyword
+          keyword:this.keyword || undefined
         }
       }); 
     },

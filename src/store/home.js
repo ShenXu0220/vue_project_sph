@@ -24,7 +24,7 @@ const actions = {
   // 获取楼层数据
   async getFloorList(miniStore){
     let result = await reqFloorList()
-    console.log(result)
+    // console.log(result)
     if(result.code === 200){
       miniStore.commit('SAVE_FLOOR_LIST',result.data)
     }else{

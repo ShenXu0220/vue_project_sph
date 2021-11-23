@@ -24,7 +24,7 @@
 						</div>
 						<div class="floorBanner">
 							<!-- 轮播图区域 -->
-							<div class="swiper-container floor-swiper">
+							<div class="swiper-container" :class="cname">
 								<div class="swiper-wrapper">
 									<!-- 遍历生成每一屏 -->
 									<div class="swiper-slide" v-for="carouse in floorObj.carouselList" :key="carouse.id">
@@ -71,9 +71,10 @@ import 'swiper/css/swiper.min.css'
 
 	export default {
 		name: 'Floor',
-    props:['floorObj'],
+    props:['floorObj','cname'],
 		mounted() {
-			new Swiper('.floor-swiper', {
+			new Swiper('.'+this.cname, {
+        loop:true,
 				autoplay: { //自动轮播
 					delay: 2000, //自动轮播间隔时间
 					disableOnInteraction: false, //自动轮播期间，鼠标一旦介入操作，自动轮播是否停止

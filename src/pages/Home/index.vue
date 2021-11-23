@@ -11,7 +11,11 @@
 		<!-- 喜欢 -->
 		<Like/>
 		<!-- 楼层 -->
-		<Floor v-for="floorObj in floorList" :key="floorObj.id" :floorObj="floorObj"/>
+		<Floor v-for="floorObj in floorList" 
+      :key="floorObj.id" 
+      :floorObj="floorObj"
+      :cname="`floor-swiper${floorObj.id}`"
+    />
 		<!-- 商标 -->
 		<Brand/>
 	</div>
