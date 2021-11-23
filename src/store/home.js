@@ -1,4 +1,4 @@
-import {reqCategoryList,reqRollPlayList} from '@/api/index'
+import {reqCategoryList,reqRollPlayList,reqFloorList} from '@/api/index'
 
 // 是首页的Vuex，存储数据的地方
 const actions = {
@@ -14,9 +14,19 @@ const actions = {
   // 获取轮播图数据
   async getRollPlayList(miniStore){
     let result = await reqRollPlayList()
-    console.log(result)
+    // console.log(result)
     if(result.code === 200){
       miniStore.commit('SAVE_ROLLPLAY_LIST', result.data)
+    }else{
+      alert(result.message)
+    }
+  },
+  // 获取楼层数据
+  async getFloorList(miniStore){
+    let result = await reqFloorList()
+    console.log(result)
+    if(result.code === 200){
+      miniStore.commit('SAVE_FLOOR_LIST',result.data)
     }else{
       alert(result.message)
     }
@@ -29,12 +39,16 @@ const mutations = {
   },
   SAVE_ROLLPLAY_LIST(state, list){
     state.rollPlayList = list
+  },
+  SAVE_FLOOR_LIST(state,list){
+    state.floorList = list
   }
 }
 
 const state = {
   categoryList:[],
-  rollPlayList:[]
+  rollPlayList:[],
+  floorList:[]
 }
 
 const getters = {}

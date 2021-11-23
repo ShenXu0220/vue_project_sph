@@ -1,8 +1,9 @@
 .DS_Store
 node_modules
 静态页面
-day2_src
-额外练习src
+day_src
+额外练习src1
+额外练习src2
 /dist
 
 

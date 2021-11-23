@@ -11,14 +11,14 @@
 		<!-- 喜欢 -->
 		<Like/>
 		<!-- 楼层 -->
-		<Floor/>
-		<Floor/>
+		<Floor v-for="floorObj in floorList" :key="floorObj.id" :floorObj="floorObj"/>
 		<!-- 商标 -->
 		<Brand/>
 	</div>
 </template>
 
 <script>
+  import {mapState} from 'vuex'
 	import ListContainer from './ListContainer'
 	import Recommend from './Recommend'
 	import Rank from './Rank'
@@ -28,6 +28,14 @@
 
 	export default {
 		name:'Home',
-		components:{ListContainer,Recommend,Rank,Like,Floor,Brand}
+		components:{ListContainer,Recommend,Rank,Like,Floor,Brand},
+    computed:{
+      ...mapState({
+        floorList: state => state.home.floorList
+      })
+    },
+    mounted(){
+      this.$store.dispatch('getFloorList')
+    }
 	}
 </script>

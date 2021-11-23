@@ -6,17 +6,8 @@
         <!--banner轮播-->
         <div class="swiper-container" id="mySwiper">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/banner1.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner2.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner3.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner4.jpg" />
+            <div class="swiper-slide" v-for="roll in rollPlayList" :key="roll.id">
+              <img :src="roll.imgUrl" />
             </div>
           </div>
           <!-- 如果需要分页器 -->
@@ -101,10 +92,46 @@
 </template>
 
 <script>
+import Swiper from 'swiper'
+import 'swiper/css/swiper.min.css'
+import {mapState} from 'vuex'
+
 export default {
   name: "ListContainer",
   mounted(){
     this.$store.dispatch('getRollPlayList')
+  },
+  computed:{
+    ...mapState({
+      rollPlayList: state => state.home.rollPlayList
+    })
+  },
+  watch:{
+    //watch监视的数据的变化，而不是页面DOM的变化
+    //监视回调执行的时，数据是新的，Vue还没来得及用新数据更新DOM呢
+    //所以界面DOM是旧的，所以此时new Swiper()不是一个正确的选择
+    rollPlayList(value){
+      console.log('请求回来了数据')
+      //$nextTick什么时候调用？—— 在Vue最近一次更新完模板之后调用
+      this.$nextTick(()=>{//调用这个方法是会等到数据请求回来之后，再渲染Dom界面，才执行这个方法的回调
+        //创建Swiper实例
+   			new Swiper('.swiper-container', {
+          loop:true,
+   				autoplay: { //自动轮播
+   					delay: 2000, //自动轮播间隔时间
+   					disableOnInteraction: true, //自动轮播期间，鼠标介入操作后，自动轮播是否停止
+   				},
+   				pagination: { //分页器
+   					el: '.swiper-pagination',
+   					clickable: true, //小圆点是否可以被点击
+   				},
+   				navigation: { //导航（左箭头、右箭头）
+   					nextEl: '.swiper-button-next',
+   					prevEl: '.swiper-button-prev',
+   				},
+   			});
+      })
+    }
   }
 };
 </script>
