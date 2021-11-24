@@ -3,7 +3,7 @@ import {reqSearchInfo} from '@/api/index'
 const actions = {
   async getSearchParams(miniStore,searchParams){
     let result = await reqSearchInfo(searchParams)
-    console.log(result)
+    // console.log(result)
     if(result.code === 200){
       miniStore.commit('SAVE_SEARCH_INFO', result.data)
     }else{

@@ -5,22 +5,38 @@
     <div class="main">
       <div class="py-container">
         <!--面包屑导航-->
-        <!-- <div class="bread">
+        <div class="bread">
           <ul class="fl sui-breadcrumb">
             <li>
               <span href="#">全部结果</span>
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <!-- 面包屑_分类名 -->
+            <li class="with-x" v-show="searchParams.categoryName">
+              {{searchParams.categoryName}}
+              <i @click="removeCategoryName">×</i>
+            </li>
+            <!-- 面包屑_关键词 -->
+            <li class="with-x" v-show="searchParams.keyword">
+              {{searchParams.keyword}}
+              <i @click="removeKeyword">×</i>
+            </li>
+            <!-- 面包屑_品牌 -->
+            <li class="with-x" v-show="searchParams.trademark">
+              {{tName}}
+              <i @click="removeTrademark">×</i>
+            </li>
+             <!-- 面包屑_属性 -->
+            <li class="with-x" v-for="(prop, index) in searchParams.props" :key="index">
+              {{ dealProp(prop) }}
+              <i @click="removeProps(index)">×</i>
+            </li>
           </ul>
-        </div> -->
+        </div>
 
         <!-- 搜索器 -->
-        <SearchSelector />
+        <SearchSelector @sendTrademark="handleClickTrademark" @sendAttrValue="handleClickAttrValue"/>
 
         <!--商品展示区-->
         <div class="details clearfix">
@@ -151,11 +167,80 @@ export default {
       }
     }
   },
+  methods:{
+    // 封装发请求的方法
+    search(){
+      this.$store.dispatch('getSearchParams',this.searchParams)
+    },
+
+    // 移除面包屑的分类名
+    removeCategoryName(){
+      let {keyword} = this.$route.query
+      this.$router.push({
+        path:'/search',
+        query:{
+          keyword
+        }
+      })
+    },
+    // 移除面包屑的关键词
+    removeKeyword(){
+      let {query} = this.$route
+      this.$router.push({
+        path:'/search',
+        query:{
+          ...query,
+          keyword:undefined
+        }
+      })
+      // 借助全局事件总线，将头部组件的搜索框的keyword清空
+      this.$bus.$emit('clear-keyword')
+    },
+    //点击获取searchSelector品牌的数据
+    handleClickTrademark(trademark){
+      let {tmId, tmName} = trademark
+      // console.log(tmId, tmName)
+      // 整合数据
+      this.searchParams.trademark = `${tmId}:${tmName}`
+      // 携带参数发请求
+      this.search()
+    },
+    // 移除面包屑的品牌
+    removeTrademark(){
+      this.searchParams.trademark=""
+      this.search()
+    },
+    // 点击获取searchSelector属性的数据
+    handleClickAttrValue(prop){
+      let result = this.searchParams.props.find((item) =>{
+        return item === prop
+      })
+      if(!result){
+        this.searchParams.props.push(prop)
+        this.search()
+      }
+    },
+
+    // 移除面包屑的属性
+    removeProps(index){
+      this.searchParams.props.splice(index, 1)
+      this.search()
+    },
+    // 专门用于处理商品属性，形成一个规范的格式呈现给用户
+    dealProp(str){
+      return str.split(':')[2] + ':' + str.split(':')[1]
+    }
+  },
   computed:{
     // ...mapState({
     //   goodsList: state => state.search.searchInfo.goodsList
     // })
-    ...mapGetters(['goodsList','attrsList','trademarkList'])
+    // 获取Vuex里的数据
+    ...mapGetters(['goodsList','attrsList','trademarkList']),
+    // 整合trademark显示数据
+    tName(){
+      return this.searchParams.trademark.split(':')[1]
+    }
   },
   watch:{
     $route:{

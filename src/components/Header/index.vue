@@ -73,6 +73,14 @@ export default {
       }); 
     },
   },
+  mounted(){
+    this.$bus.$on('clear-keyword', ()=>{
+      this.keyword = ''
+    })
+  },
+  beforeDestroy(){
+    this.$bus.$off('clear-keyword')
+  }
 };
 </script>
 

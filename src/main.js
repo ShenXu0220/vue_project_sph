@@ -10,6 +10,9 @@ Vue.component('TypeNav', TypeNav)
 
 new Vue({
   el:'#app',
+  beforeCreate(){
+    Vue.prototype.$bus = this
+  },
   render: h => h(App),
   router,
   store

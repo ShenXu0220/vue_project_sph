@@ -5,15 +5,23 @@
 			<div class="fl key brand">品牌</div>
 			<div class="value logos">
 				<ul class="logo-list">
-					<li v-for="trademark in trademarkList" :key="trademark.tmId">索尼（SONY）</li>
+          <!-- 品牌 -->
+					<li v-for="trademark in trademarkList" 
+            :key="trademark.tmId"
+            @click="handleClickTrademark(trademark)">
+            {{trademark.tmName}}
+          </li>
 				</ul>
 			</div>
 		</div>
+    <!-- 属性 -->
 		<div class="type-wrap" v-for="attrs in attrsList" :key="attrs.attrId">
 			<div class="fl key">{{attrs.attrName}}</div>
 			<div class="fl value">
 				<ul class="type-list">
-          <li v-for="(attrValue,index) in attrs.attrValueList" :key="index">
+          <li v-for="(attrValue,index) in attrs.attrValueList" 
+              :key="index"
+              @click="handleClickAttrValue(attrValue, attrs)">
 						<a>{{attrValue}}</a>
 					</li>
 				</ul>
@@ -30,6 +38,16 @@
     computed:{
       ...mapGetters(['attrsList','trademarkList'])
     },
+    methods:{
+      handleClickTrademark(trademark){
+        this.$emit('sendTrademark',trademark)
+      },
+      handleClickAttrValue(attrValue, {attrName, attrId}){
+        // 整合数据
+        let str = `${attrId}:${attrValue}:${attrName}`
+        this.$emit('sendAttrValue', str)
+      }
+    }
 	}
 </script>
 
@@ -85,9 +103,13 @@
 						text-overflow: ellipsis;
 						white-space: nowrap;
 						font-weight: 700;
-						color: #e1251b;
-						font-style: italic;
+						background: #e1251b;
+            color:#fff;
 						font-size: 14px;
+            cursor: pointer;
+            &:hover{
+              background: #ca2017;
+            }
 
 						img {
 							max-width: 100%;
