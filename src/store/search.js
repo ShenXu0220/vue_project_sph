@@ -32,6 +32,9 @@ const getters = {
   trademarkList(state){
     return state.searchInfo.trademarkList
   },
+  total(){
+    return state.searchInfo.total
+  },
 }
 
 export default {

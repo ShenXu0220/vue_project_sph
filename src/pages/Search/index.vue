@@ -44,23 +44,11 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li @click.prevent="changeOrder(1)" :class="{active: !isPrice}">
+                  <a href="#">综合<span v-show="!isPrice" class="iconfont" :class="iconName"></span></a>
                 </li>
-                <li>
-                  <a href="#">销量</a>
-                </li>
-                <li>
-                  <a href="#">新品</a>
-                </li>
-                <li>
-                  <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                <li @click.prevent="changeOrder(2)" :class="{active: isPrice}">
+                  <a href="#">价格<span v-show="isPrice" class="iconfont" :class="iconName"></span></a>
                 </li>
               </ul>
             </div>
@@ -71,9 +59,9 @@
               <li class="yui3-u-1-5" v-for="goods in goodsList" :key="goods.id">
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="item.html" target="_blank"
+                    <router-link :to="'/detail/'+ goods.id"
                       ><img :src="goods.defaultImg"
-                    /></a>
+                    /></router-link>
                   </div>
                   <div class="price">
                     <strong>
@@ -82,11 +70,10 @@
                     </strong>
                   </div>
                   <div class="attr">
-                    <a
-                      target="_blank"
-                      href="item.html"
+                    <router-link
+                      :to="'/detail/'+ goods.id"
                       :title="goods.title"
-                      >{{goods.title}}</a
+                      >{{goods.title}}</router-link
                     >
                   </div>
                   <div class="commit">
@@ -108,35 +95,12 @@
             </ul>
           </div>
           <!-- 分页器 -->
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
+          <Pagination 
+          :total="total" 
+          :pageNo="searchParams.pageNo" 
+          :pageSize="searchParams.pageSize" 
+          :continues="5"
+          :sendPage="savePage"/>
         </div>
       </div>
     </div>
@@ -161,15 +125,18 @@ export default {
         keyword: '',//关键词
         props: [],//商品属性
         trademark: '',//品牌
-        order: '',//排序
+        order: '1:desc',//排序
         pageNo: 1,//当前页码
-        pageSize: 10 //每页展示多少条
+        pageSize: 5 //每页展示多少条
       }
     }
   },
   methods:{
     // 封装发请求的方法
-    search(){
+    search(n){
+      if(n){
+        this.searchParams.pageNo = 1
+      }
       this.$store.dispatch('getSearchParams',this.searchParams)
     },
 
@@ -203,12 +170,12 @@ export default {
       // 整合数据
       this.searchParams.trademark = `${tmId}:${tmName}`
       // 携带参数发请求
-      this.search()
+      this.search(1)
     },
     // 移除面包屑的品牌
     removeTrademark(){
       this.searchParams.trademark=""
-      this.search()
+      this.search(1)
     },
     // 点击获取searchSelector属性的数据
     handleClickAttrValue(prop){
@@ -217,18 +184,37 @@ export default {
       })
       if(!result){
         this.searchParams.props.push(prop)
-        this.search()
+        this.search(1)
       }
     },
 
     // 移除面包屑的属性
     removeProps(index){
       this.searchParams.props.splice(index, 1)
-      this.search()
+      this.search(1)
     },
     // 专门用于处理商品属性，形成一个规范的格式呈现给用户
     dealProp(str){
       return str.split(':')[2] + ':' + str.split(':')[1]
+    },
+    // 存储传来的页码，将页码传给searchParams的pageNo
+    savePage(page){
+      this.searchParams.pageNo = page
+      this.search()
+    },
+    // 用于点击排序的回调
+    changeOrder(type){
+      let [oldType, oldFlg] = this.searchParams.order.split(':')
+      // 当传来的类型值和在searchParams存储的类型值一致时
+      if(type == oldType){
+        let newFlg = oldFlg === 'asc' ? 'desc' : 'asc'
+        // 维护数据
+        this.searchParams.order = `${oldType}:${newFlg}`
+        this.search()
+      }else{
+        this.searchParams.order = `${type}:desc`
+      }
+      this.search(1)
     }
   },
   computed:{
@@ -236,10 +222,18 @@ export default {
     //   goodsList: state => state.search.searchInfo.goodsList
     // })
     // 获取Vuex里的数据
-    ...mapGetters(['goodsList','attrsList','trademarkList']),
+    ...mapGetters(['goodsList','attrsList','trademarkList','total']),
     // 整合trademark显示数据
     tName(){
       return this.searchParams.trademark.split(':')[1]
+    },
+    // 排序是否是价格
+    isPrice(){
+      return this.searchParams.order.split(':')[0] === '2'
+    },
+    // 箭头的指向
+    iconName(){
+      return this.searchParams.order.split(':')[1] === 'asc' ? 'icon-up' : 'icon-down'
     }
   },
   watch:{
