@@ -1,9 +1,12 @@
 <template>
-  <div class="swiper-container">
+  <div class="swiper-container swiper-img">
     <div class="swiper-wrapper">
-      <div class="swiper-slide">
-        <img src="../images/s1.png">
-      </div>
+      <div class="swiper-slide smallImg" 
+        v-for="(skuImg,index) in skuInfo.skuImageList" 
+        :key="skuImg.id"
+        @click="chooseImgShow(index)">
+        <img :src="skuImg.imgUrl" >
+      </div>     
     </div>
     <div class="swiper-button-next"></div>
     <div class="swiper-button-prev"></div>
@@ -11,10 +14,43 @@
 </template>
 
 <script>
-
   import Swiper from 'swiper'
+  import 'swiper/css/swiper.min.css'
+  import {mapGetters} from 'vuex'
+
   export default {
     name: "ImageList",
+    computed:{
+      ...mapGetters(['skuInfo'])
+    },
+    watch:{
+      skuInfo(value){
+        this.$nextTick(()=>{
+        //创建Swiper实例
+            new Swiper('.swiper-img', {
+              slidesPerView:"auto",//同时展示几屏
+              spaceBetween: 20,//图片之间的距离
+              autoplay: { //自动轮播
+                delay: 2000, //自动轮播间隔时间
+                disableOnInteraction: true, //自动轮播期间，鼠标介入操作后，自动轮播是否停止
+              },
+              pagination: { //分页器
+                el: '.swiper-pagination',
+                clickable: true, //小圆点是否可以被点击
+              },
+              navigation: { //导航（左箭头、右箭头）
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+              },
+            });
+          })
+        }
+    },
+    methods:{
+      chooseImgShow(index){
+        this.$bus.$emit('send-index', index)
+      }
+    }
   }
 </script>
 
@@ -24,7 +60,9 @@
     width: 412px;
     box-sizing: border-box;
     padding: 0 12px;
-
+    .smallImg{
+      display: flex;
+    }
     .swiper-slide {
       width: 56px;
       height: 56px;

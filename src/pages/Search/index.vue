@@ -34,12 +34,18 @@
             </li>
           </ul>
         </div>
+        
+        <!-- 当商品时，展示的样式 -->
+        <div class="empty" v-show="!total" ref="emptyRef">
+          <img src="https://static.360buyimg.com/devfe/error-new/1.0.0/css/i/error_06.png" alt="">
+          <h2>非常抱歉，没有你想要的商品</h2>
+        </div>
 
         <!-- 搜索器 -->
-        <SearchSelector @sendTrademark="handleClickTrademark" @sendAttrValue="handleClickAttrValue"/>
+        <SearchSelector v-show="total" @sendTrademark="handleClickTrademark" @sendAttrValue="handleClickAttrValue"/>
 
         <!--商品展示区-->
-        <div class="details clearfix">
+        <div class="details clearfix" v-show="total">
           <!-- 列表操作区 -->
           <div class="sui-navbar">
             <div class="navbar-inner filter">
@@ -254,11 +260,9 @@ export default {
         // 参数整合后发送请求
         this.$store.dispatch('getSearchParams',this.searchParams)
       }
-    }
+    },
   },
-  // mounted(){
-  //   this.$store.dispatch('getSearchParams',this.searchParams)
-  // }
+
 };
 </script>
 
@@ -586,6 +590,14 @@ export default {
             width: 241px;
           }
         }
+      }
+    }
+
+    .empty{
+      text-align: center;
+      h2{
+        color: #333;
+        margin: 10px 0;
       }
     }
   }
