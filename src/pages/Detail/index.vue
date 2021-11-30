@@ -75,12 +75,12 @@
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt">
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input class="itxt" :value="skuNum" @change="changeSkuNum('change', $event)">
+                <a @click="changeSkuNum('increment')" class="plus" :class="{disabled:skuNum === 200}">+</a>
+                <a @click="changeSkuNum('decrement')" class="mins" :class="{disabled:skuNum === 1}">-</a>
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a @click="add2Cart">加入购物车</a>
               </div>
             </div>
           </div>
@@ -331,9 +331,11 @@
 </template>
 
 <script>
+  import {reqAddCart} from '@/api'
   import ImageList from './ImageList/ImageList'
   import Zoom from './Zoom/Zoom'
   import {mapGetters} from 'vuex'
+  import {skuNumReg} from '@/tools/reg'
 
   export default {
     name: 'Detail',
@@ -342,6 +344,12 @@
       ImageList,
       Zoom
     },
+    data(){
+      return{
+        skuNum:1
+      }
+    },
+    props:['id'],
     mounted(){
       // 将路由上的id传递给
       let {id} = this.$route.params
@@ -360,6 +368,58 @@
         // 将找到的属性对象的isChecked的值改为’1‘
         res.isChecked = '1'
         // this.$store.commit('CHECK_ATTR',{parentId:5, id:9})
+      },
+      // 改变数值，校验数据
+      changeSkuNum(type, e){
+        switch (type){
+          case 'increment':
+            if(this.skuNum === 200) alert('最大值，不能再加')
+            else this.skuNum += 1
+            break;
+          case 'decrement':
+            if(this.skuNum === 1) alert('最小值，不能再减')
+            else this.skuNum -= 1
+            break;
+          case 'change':
+            let {value} = e.target
+            if(skuNumReg.test(value)){
+              this.skuNum = value * 1
+            }else if(value > 200){
+              this.skuNum = e.target.value = 200
+            }else{
+              this.skuNum = e.target.value = 1
+            }
+            break;
+        }
+      },
+      // 跳转前必须先和数据对接判断一下，然后 跳转添加购物车成功的路由，并且准备好选中的商品数据
+      async add2Cart(){
+        let result = await reqAddCart(this.id, this.skuNum)
+        if(result.code === 200){
+            // 获取携带的数据
+            let skuShowObj ={
+              skuName: this.skuInfo.skuName,
+              skuPrice: this.skuInfo.price,
+              skuNum: this.skuNum,
+              skuAttr:{},
+              skuImg: this.skuInfo.skuDefaultImg 
+            }
+            // 将skuAttr的数据整理好
+            this.spuSaleAttrList.forEach(item1 =>{
+              let res = item1.spuSaleAttrValueList.find(item2 =>{
+                return item2.isChecked === '1'
+              })
+              if(res){
+                skuShowObj.skuAttr[res.saleAttrName] = res.saleAttrValueName
+              }
+            })
+          // 将数据保存在sessionStorage中携带，因为如果是路由传参过去，会导致浏览器上的数据过长，不美观，而且有可能部分浏览器不支持
+          sessionStorage.setItem('skuShowObj', JSON.stringify(skuShowObj))
+          this.$router.push('/addCart_success')
+          console.log(skuShowObj)
+        }else{
+          alert(result.message)
+        }
       }
     }
   }
@@ -536,6 +596,10 @@
                 position: relative;
                 float: left;
                 margin-right: 15px;
+                .disabled{
+                  cursor: not-allowed !important;
+                  color: #ccc;
+                }
 
                 .itxt {
                   width: 38px;

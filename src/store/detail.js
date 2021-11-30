@@ -3,7 +3,7 @@ import {reqDetailInfo} from '@/api/index'
 const actions = {
   async getDetailInfo(miniStore, id){
     let result = await reqDetailInfo(id)
-    console.log(result)
+    // console.log(result)
     if(result.code === 200){
      miniStore.commit('SAVE_DETAIL_INFO', result.data) 
     }else{

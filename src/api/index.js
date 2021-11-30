@@ -9,6 +9,10 @@ export const reqFloorList = () => mAjax.get('/floor')
 export const reqSearchInfo = (searchParams) => ajax.post('/list', searchParams);
 // 商品详情接口
 export const reqDetailInfo = (skuId) => ajax.get(`/item/${skuId}`);
+// 添加到购物车的接口
+export const reqAddCart = (skuId, skuNum) => ajax.post(`/cart/addToCart/${ skuId }/${ skuNum }`);
+// 获取购物车列表接口
+export const reqShopCartList = () => ajax.get('/cart/cartList');
 
 
 

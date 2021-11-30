@@ -2,6 +2,7 @@ import axios from "axios";
 // 导入NProgress包（进度条）对应的js和css
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import {getUserTempId} from '@/tools/auth'
 
 // 进行一些全局的配置
 const ajax = axios.create({
@@ -10,10 +11,10 @@ const ajax = axios.create({
 })
 
 // 添加请求拦截器
-ajax.interceptors.request.use(
-    (config)=>{
-      NProgress.start()
-      return config
+ajax.interceptors.request.use((config)=>{
+    NProgress.start()
+    config.headers.userTempId = getUserTempId()
+    return config
   },
     (error)=>{
       return Promise.reject(error)
