@@ -13,6 +13,14 @@ export const reqDetailInfo = (skuId) => ajax.get(`/item/${skuId}`);
 export const reqAddCart = (skuId, skuNum) => ajax.post(`/cart/addToCart/${ skuId }/${ skuNum }`);
 // 获取购物车列表接口
 export const reqShopCartList = () => ajax.get('/cart/cartList');
+// 切换点击选中商品状态
+export const reqCheckSkuInCart = (skuId, isChecked) => ajax.get(`/cart/checkCart/${ skuId }/${ isChecked} `);
+// 批量选中商品的接口
+export const reqCheckAllSkuInCart = (isChecked,skuIdList) => ajax.post(`/cart/batchCheckCart/${ isChecked }`,skuIdList);
+// 单个商品的删除接口
+export const reqDeleteSkuInCart = (skuId) => ajax.delete(`/cart/deleteCart/${ skuId }`);
+// 批量删除选中的商品接口
+export const reqDeleteAllSkuInCart = (skuIdList) => ajax.delete('/cart/batchDeleteCart',{data:skuIdList});
 
 
 
