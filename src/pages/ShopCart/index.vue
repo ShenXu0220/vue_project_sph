@@ -25,9 +25,9 @@
             <span class="price">{{cartInfo.skuPrice}}</span>
           </li>
           <li class="cart-list-con5">
-            <a href="javascript:void(0)" class="mins">-</a>
-            <input autocomplete="off" type="text" :value="cartInfo.skuNum" minnum="1" class="itxt">
-            <a href="javascript:void(0)" class="plus">+</a>
+            <a @click="handleChangeSkuNum('decrement', cartInfo)" href="javascript:void(0)" class="mins">-</a>
+            <input @change="handleChangeSkuNum('change' ,cartInfo, $event)" type="text" :value="cartInfo.skuNum"  class="itxt">
+            <a @click="handleChangeSkuNum('increment', cartInfo)" href="javascript:void(0)" class="plus">+</a>
           </li>
           <li class="cart-list-con6">
             <span class="sum">{{cartInfo.skuPrice * cartInfo.skuNum}}</span>
@@ -60,12 +60,17 @@
         </div>
       </div>
     </div>
+    <!-- 购物车为空时展示的页面 -->
+    <div class="empty" v-show="!shopCartList.length">
+      <h2 class="title">购物车空空如也</h2>
+      <img src="./images/empty.gif" alt="">
+    </div>
   </div>
 </template>
 
 <script>
-import {reqCheckSkuInCart, reqCheckAllSkuInCart, reqDeleteSkuInCart, reqDeleteAllSkuInCart} from '@/api'
-
+import {reqCheckSkuInCart, reqCheckAllSkuInCart, reqDeleteSkuInCart, reqDeleteAllSkuInCart, reqAddOrUpdateCart} from '@/api'
+import throttle from 'lodash/throttle'
 import {mapState} from 'vuex'
 
   export default {
@@ -104,9 +109,14 @@ import {mapState} from 'vuex'
 
     },
     methods:{
+      // 封装一个函数，用户点击商品数量增减的时候发送请求
+      async changeSkuInCartSkuNum(skuId, skuNum){
+        let result = await reqAddOrUpdateCart(skuId, skuNum)
+        this.refreshCart(result) 
+      },
       // 发送请求，重新渲染页面
       refreshCart(result){
-        if(result.code !== 200) alert(result.message)
+        if(result.code !== 200) this.$message.warning(result.message)
         this.$store.dispatch('getShopCartList')
       },
       // 单选逻辑
@@ -152,6 +162,34 @@ import {mapState} from 'vuex'
           this.refreshCart(result)
         }
       },
+      // 改变商品数量
+      handleChangeSkuNum:throttle(function(type, {skuId,skuNum}, event){
+        switch (type){
+          case 'increment':
+            if(skuNum === 200){
+              this.$message.warning('最大值200')
+            }else{
+              this.changeSkuInCartSkuNum(skuId, 1)
+            }
+            break;
+          case 'decrement':
+            if(skuNum === 1){
+              this.$message.warning('最小值1')
+            }else{
+              this.changeSkuInCartSkuNum(skuId, -1)
+            }
+            break;
+          case 'change':
+              // 获取输入的数值
+              let {value} = event.target
+              // 算出差值
+              let disNum = value - skuNum
+              this.changeSkuInCartSkuNum(skuId, disNum)
+            break;
+          default:
+            break;
+        }
+      },500, {trailing: false})
     }
   }
 
@@ -347,6 +385,17 @@ import {mapState} from 'vuex'
 					}
         }
       }
+    }
+  }
+  .empty{
+    text-align: center;
+    h2{
+      color:#333;
+      margin-top: 40px;
+      font-size: 20px;
+    }
+    img{
+      width: 300px;
     }
   }
 }

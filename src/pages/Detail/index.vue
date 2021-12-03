@@ -7,9 +7,9 @@
     <section class="con">
       <!-- 导航路径区域 -->
       <div class="conPoin">
-        <span>{{categoryView.category1Name}}</span>
-        <span>{{categoryView.category2Name}}</span>
-        <span>{{categoryView.category3Name}}</span>
+        <span>{{ categoryView.category1Name }}</span>
+        <span>{{ categoryView.category2Name }}</span>
+        <span>{{ categoryView.category3Name }}</span>
       </div>
       <!-- 主要内容区域 -->
       <div class="mainCon">
@@ -23,14 +23,18 @@
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
           <div class="goodsDetail">
-            <h3 class="InfoName">{{skuInfo.skuName}}</h3>
-            <p class="news">推荐选择下方[移动优惠购],手机套餐齐搞定,不用换号,每月还有花费返</p>
+            <h3 class="InfoName">{{ skuInfo.skuName }}</h3>
+            <p class="news">
+              推荐选择下方[移动优惠购],手机套餐齐搞定,不用换号,每月还有花费返
+            </p>
             <div class="priceArea">
               <div class="priceArea1">
-                <div class="title">价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格</div>
+                <div class="title">
+                  价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格
+                </div>
                 <div class="price">
                   <i>¥</i>
-                  <em>{{skuInfo.price}}</em>
+                  <em>{{ skuInfo.price }}</em>
                   <span>降价通知</span>
                 </div>
                 <div class="remark">
@@ -44,14 +48,20 @@
                 </div>
                 <div class="fixWidth">
                   <i class="red-bg">加价购</i>
-                  <em class="t-gray">满999.00另加20.00元，或满1999.00另加30.00元，或满2999.00另加40.00元，即可在购物车换购热销商品</em>
+                  <em class="t-gray"
+                    >满999.00另加20.00元，或满1999.00另加30.00元，或满2999.00另加40.00元，即可在购物车换购热销商品</em
+                  >
                 </div>
               </div>
             </div>
             <div class="support">
               <div class="supportArea">
-                <div class="title">支&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;持</div>
-                <div class="fixWidth">以旧换新，闲置手机回收 4G套餐超值抢 礼品购</div>
+                <div class="title">
+                  支&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;持
+                </div>
+                <div class="fixWidth">
+                  以旧换新，闲置手机回收 4G套餐超值抢 礼品购
+                </div>
               </div>
               <div class="supportArea">
                 <div class="title">配 送 至</div>
@@ -64,20 +74,38 @@
             <div class="chooseArea">
               <div class="choosed"></div>
               <dl v-for="item1 in spuSaleAttrList" :key="item1.id">
-                <dt class="title">选择{{item1.saleAttrName}}</dt>
-                <dd v-for="item2 in item1.spuSaleAttrValueList" 
-                  :key="item2.id" 
-                  :class="{active: item2.isChecked === '1'}"
-                  @click="handleClickChooseAttr(item1.spuSaleAttrValueList, item2.id)">
-                {{item2.saleAttrValueName}}
+                <dt class="title">选择{{ item1.saleAttrName }}</dt>
+                <dd
+                  v-for="item2 in item1.spuSaleAttrValueList"
+                  :key="item2.id"
+                  :class="{ active: item2.isChecked === '1' }"
+                  @click="
+                    handleClickChooseAttr(item1.spuSaleAttrValueList, item2.id)
+                  "
+                >
+                  {{ item2.saleAttrValueName }}
                 </dd>
               </dl>
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input class="itxt" :value="skuNum" @change="changeSkuNum('change', $event)">
-                <a @click="changeSkuNum('increment')" class="plus" :class="{disabled:skuNum === 200}">+</a>
-                <a @click="changeSkuNum('decrement')" class="mins" :class="{disabled:skuNum === 1}">-</a>
+                <input
+                  class="itxt"
+                  :value="skuNum"
+                  @change="changeSkuNum('change', $event)"
+                />
+                <a
+                  @click="changeSkuNum('increment')"
+                  class="plus"
+                  :class="{ disabled: skuNum === 200 }"
+                  >+</a
+                >
+                <a
+                  @click="changeSkuNum('decrement')"
+                  class="mins"
+                  :class="{ disabled: skuNum === 1 }"
+                  >-</a
+                >
               </div>
               <div class="add">
                 <a @click="add2Cart">加入购物车</a>
@@ -113,7 +141,7 @@
                   <div class="p-img">
                     <img src="./images/part01.png" />
                   </div>
-                  <div class="attr">Apple苹果iPhone 6s (A1699) </div>
+                  <div class="attr">Apple苹果iPhone 6s (A1699)</div>
                   <div class="price">
                     <em>¥</em>
                     <i>6088.00</i>
@@ -220,7 +248,7 @@
                 <img src="./images/dp01.png" />
                 <p>Feless费勒斯VR</p>
                 <label>
-                  <input type="checkbox" value="39">
+                  <input type="checkbox" value="39" />
                   <span>39</span>
                 </label>
               </li>
@@ -228,7 +256,7 @@
                 <img src="./images/dp02.png" />
                 <p>Feless费勒斯VR</p>
                 <label>
-                  <input type="checkbox" value="50">
+                  <input type="checkbox" value="50" />
                   <span>50</span>
                 </label>
               </li>
@@ -236,7 +264,7 @@
                 <img src="./images/dp03.png" />
                 <p>Feless费勒斯VR</p>
                 <label>
-                  <input type="checkbox" value="59">
+                  <input type="checkbox" value="59" />
                   <span>59</span>
                 </label>
               </li>
@@ -244,16 +272,14 @@
                 <img src="./images/dp04.png" />
                 <p>Feless费勒斯VR</p>
                 <label>
-                  <input type="checkbox" value="99">
+                  <input type="checkbox" value="99" />
                   <span>99</span>
                 </label>
               </li>
             </ul>
             <div class="result">
               <div class="num">已选购0件商品</div>
-              <div class="price-tit">
-                套餐价
-              </div>
+              <div class="price-tit">套餐价</div>
               <div class="price">￥5299</div>
               <button class="addshopcar">加入购物车</button>
             </div>
@@ -262,29 +288,19 @@
         <div class="intro">
           <ul class="tab-wraped">
             <li class="active">
-              <a href="###">
-                商品介绍
-              </a>
+              <a href="###"> 商品介绍 </a>
             </li>
             <li>
-              <a href="###">
-                规格与包装
-              </a>
+              <a href="###"> 规格与包装 </a>
             </li>
             <li>
-              <a href="###">
-                售后保障
-              </a>
+              <a href="###"> 售后保障 </a>
             </li>
             <li>
-              <a href="###">
-                商品评价
-              </a>
+              <a href="###"> 商品评价 </a>
             </li>
             <li>
-              <a href="###">
-                手机社区
-              </a>
+              <a href="###"> 手机社区 </a>
             </li>
           </ul>
           <div class="tab-content">
@@ -331,321 +347,409 @@
 </template>
 
 <script>
-  import {reqAddCart} from '@/api'
-  import ImageList from './ImageList/ImageList'
-  import Zoom from './Zoom/Zoom'
-  import {mapGetters} from 'vuex'
-  import {skuNumReg} from '@/tools/reg'
+import { reqAddOrUpdateCart } from "@/api";
+import ImageList from "./ImageList/ImageList";
+import Zoom from "./Zoom/Zoom";
+import { mapGetters } from "vuex";
+import { skuNumReg } from "@/tools/reg";
 
-  export default {
-    name: 'Detail',
-    
-    components: {
-      ImageList,
-      Zoom
+export default {
+  name: "Detail",
+
+  components: {
+    ImageList,
+    Zoom,
+  },
+  data() {
+    return {
+      skuNum: 1,
+    };
+  },
+  props: ["id"],
+  mounted() {
+    // 将路由上的id传递给
+    let { id } = this.$route.params;
+    this.$store.dispatch("getDetailInfo", id);
+  },
+  computed: {
+    ...mapGetters(["skuInfo", "categoryView", "spuSaleAttrList"]),
+  },
+  methods: {
+    handleClickChooseAttr(list, id) {
+      // 重置所有  这个方法是直接改变Vuex中的数据
+      list.forEach((item) => (item.isChecked = "0"));
+      // 根据传入的ID找到对应的属性对象
+      let res = list.find((item) => item.id === id);
+      // console.log(list, res)
+      // 将找到的属性对象的isChecked的值改为’1‘
+      res.isChecked = "1";
+      // this.$store.commit('CHECK_ATTR',{parentId:5, id:9})
     },
-    data(){
-      return{
-        skuNum:1
+    // 改变数值，校验数据
+    changeSkuNum(type, e) {
+      switch (type) {
+        case "increment":
+          if (this.skuNum === 200) alert("最大值，不能再加");
+          else this.skuNum += 1;
+          break;
+        case "decrement":
+          if (this.skuNum === 1) alert("最小值，不能再减");
+          else this.skuNum -= 1;
+          break;
+        case "change":
+          let { value } = e.target;
+          if (skuNumReg.test(value)) {
+            this.skuNum = value * 1;
+          } else if (value > 200) {
+            this.skuNum = e.target.value = 200;
+          } else {
+            this.skuNum = e.target.value = 1;
+          }
+          break;
       }
     },
-    props:['id'],
-    mounted(){
-      // 将路由上的id传递给
-      let {id} = this.$route.params
-      this.$store.dispatch('getDetailInfo',id)
-    },
-    computed:{
-      ...mapGetters(['skuInfo','categoryView','spuSaleAttrList'])
-    },
-    methods:{
-      handleClickChooseAttr(list, id){
-        // 重置所有  这个方法是直接改变Vuex中的数据
-        list.forEach(item => item.isChecked = '0')
-        // 根据传入的ID找到对应的属性对象
-        let res = list.find(item=> item.id === id)
-        // console.log(list, res)
-        // 将找到的属性对象的isChecked的值改为’1‘
-        res.isChecked = '1'
-        // this.$store.commit('CHECK_ATTR',{parentId:5, id:9})
-      },
-      // 改变数值，校验数据
-      changeSkuNum(type, e){
-        switch (type){
-          case 'increment':
-            if(this.skuNum === 200) alert('最大值，不能再加')
-            else this.skuNum += 1
-            break;
-          case 'decrement':
-            if(this.skuNum === 1) alert('最小值，不能再减')
-            else this.skuNum -= 1
-            break;
-          case 'change':
-            let {value} = e.target
-            if(skuNumReg.test(value)){
-              this.skuNum = value * 1
-            }else if(value > 200){
-              this.skuNum = e.target.value = 200
-            }else{
-              this.skuNum = e.target.value = 1
-            }
-            break;
-        }
-      },
-      // 跳转前必须先和数据对接判断一下，然后 跳转添加购物车成功的路由，并且准备好选中的商品数据
-      async add2Cart(){
-        let result = await reqAddCart(this.id, this.skuNum)
-        if(result.code === 200){
-            // 获取携带的数据
-            let skuShowObj ={
-              skuName: this.skuInfo.skuName,
-              skuPrice: this.skuInfo.price,
-              skuNum: this.skuNum,
-              skuAttr:{},
-              skuImg: this.skuInfo.skuDefaultImg 
-            }
-            // 将skuAttr的数据整理好
-            this.spuSaleAttrList.forEach(item1 =>{
-              let res = item1.spuSaleAttrValueList.find(item2 =>{
-                return item2.isChecked === '1'
-              })
-              if(res){
-                skuShowObj.skuAttr[res.saleAttrName] = res.saleAttrValueName
-              }
-            })
-          // 将数据保存在sessionStorage中携带，因为如果是路由传参过去，会导致浏览器上的数据过长，不美观，而且有可能部分浏览器不支持
-          sessionStorage.setItem('skuShowObj', JSON.stringify(skuShowObj))
-          this.$router.push('/addCart_success')
-          console.log(skuShowObj)
-        }else{
-          alert(result.message)
-        }
+    // 跳转前必须先和数据对接判断一下，然后 跳转添加购物车成功的路由，并且准备好选中的商品数据
+    async add2Cart() {
+      let result = await reqAddOrUpdateCart(this.id, this.skuNum);
+      if (result.code === 200) {
+        // 获取携带的数据
+        let skuShowObj = {
+          skuName: this.skuInfo.skuName,
+          skuPrice: this.skuInfo.price,
+          skuNum: this.skuNum,
+          skuAttr: {},
+          skuImg: this.skuInfo.skuDefaultImg,
+        }; // 将skuAttr的数据整理好
+        this.spuSaleAttrList.forEach((item1) => {
+          let res = item1.spuSaleAttrValueList.find((item2) => {
+            return item2.isChecked === "1";
+          });
+          if (res) {
+            skuShowObj.skuAttr[res.saleAttrName] = res.saleAttrValueName;
+          }
+        }); // 将数据保存在sessionStorage中携带，因为如果是路由传参过去，会导致浏览器上的数据过长，不美观，而且有可能部分浏览器不支持
+        sessionStorage.setItem("skuShowObj", JSON.stringify(skuShowObj));
+        this.$router.push("/addCart_success");
+        console.log(skuShowObj);
+      } else {
+        alert(result.message);
       }
-    }
-  }
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
-  .detail {
-    .con {
-      width: 1200px;
-      margin: 15px auto 0;
+.detail {
+  .con {
+    width: 1200px;
+    margin: 15px auto 0;
 
-      .conPoin {
-        padding: 9px 15px 9px 0;
+    .conPoin {
+      padding: 9px 15px 9px 0;
 
-        &>span+span:before {
-          content: "/\00a0";
-          padding: 0 5px;
-          color: #ccc;
-        }
+      & > span + span:before {
+        content: "/\00a0";
+        padding: 0 5px;
+        color: #ccc;
+      }
+    }
+
+    .mainCon {
+      overflow: hidden;
+      margin: 5px 0 15px;
+
+      .previewWrap {
+        float: left;
+        width: 400px;
+        position: relative;
       }
 
-      .mainCon {
-        overflow: hidden;
-        margin: 5px 0 15px;
+      .InfoWrap {
+        width: 700px;
+        float: right;
 
-        .previewWrap {
-          float: left;
-          width: 400px;
-          position: relative;
+        .InfoName {
+          font-size: 14px;
+          line-height: 21px;
+          margin-top: 15px;
         }
 
-        .InfoWrap {
-          width: 700px;
-          float: right;
+        .news {
+          color: #e12228;
+          margin-top: 15px;
+        }
 
-          .InfoName {
-            font-size: 14px;
-            line-height: 21px;
-            margin-top: 15px;
-          }
+        .priceArea {
+          background: #fee9eb;
+          padding: 7px;
+          margin: 13px 0;
 
-          .news {
-            color: #e12228;
-            margin-top: 15px;
-          }
+          .priceArea1 {
+            overflow: hidden;
+            line-height: 28px;
+            margin-top: 10px;
 
-          .priceArea {
-            background: #fee9eb;
-            padding: 7px;
-            margin: 13px 0;
+            .title {
+              float: left;
+              margin-right: 15px;
+            }
 
-            .priceArea1 {
-              overflow: hidden;
-              line-height: 28px;
-              margin-top: 10px;
+            .price {
+              float: left;
+              color: #c81623;
 
-              .title {
-                float: left;
-                margin-right: 15px;
+              i {
+                font-size: 16px;
               }
 
-              .price {
-                float: left;
-                color: #c81623;
-
-                i {
-                  font-size: 16px;
-                }
-
-                em {
-                  font-size: 24px;
-                  font-weight: 700;
-                }
-
-                span {
-                  font-size: 12px;
-                }
+              em {
+                font-size: 24px;
+                font-weight: 700;
               }
 
-              .remark {
-                float: right;
+              span {
+                font-size: 12px;
               }
             }
 
-            .priceArea2 {
-              overflow: hidden;
-              line-height: 28px;
-              margin-top: 10px;
-
-              .title {
-                margin-right: 15px;
-                float: left;
-              }
-
-              .fixWidth {
-                width: 520px;
-                float: left;
-
-                .red-bg {
-                  background: #c81623;
-                  color: #fff;
-                  padding: 3px;
-                }
-
-                .t-gray {
-                  color: #999;
-                }
-              }
+            .remark {
+              float: right;
             }
-
-
           }
 
-          .support {
-            border-bottom: 1px solid #ededed;
-            padding-bottom: 5px;
+          .priceArea2 {
+            overflow: hidden;
+            line-height: 28px;
+            margin-top: 10px;
 
-            .supportArea {
-              overflow: hidden;
-              line-height: 28px;
-              margin-top: 10px;
+            .title {
+              margin-right: 15px;
+              float: left;
+            }
 
-              .title {
-                margin-right: 15px;
-                float: left;
+            .fixWidth {
+              width: 520px;
+              float: left;
+
+              .red-bg {
+                background: #c81623;
+                color: #fff;
+                padding: 3px;
               }
 
-              .fixWidth {
-                width: 520px;
-                float: left;
+              .t-gray {
                 color: #999;
               }
             }
           }
+        }
 
-          .choose {
-            .chooseArea {
+        .support {
+          border-bottom: 1px solid #ededed;
+          padding-bottom: 5px;
+
+          .supportArea {
+            overflow: hidden;
+            line-height: 28px;
+            margin-top: 10px;
+
+            .title {
+              margin-right: 15px;
+              float: left;
+            }
+
+            .fixWidth {
+              width: 520px;
+              float: left;
+              color: #999;
+            }
+          }
+        }
+
+        .choose {
+          .chooseArea {
+            overflow: hidden;
+            line-height: 28px;
+            margin-top: 10px;
+
+            dl {
               overflow: hidden;
-              line-height: 28px;
-              margin-top: 10px;
+              margin: 13px 0;
 
-              dl {
-                overflow: hidden;
-                margin: 13px 0;
+              dt {
+                margin-right: 15px;
+                float: left;
+              }
 
-                dt {
-                  margin-right: 15px;
-                  float: left;
-                }
+              dd {
+                float: left;
+                margin-right: 5px;
+                color: #666;
+                line-height: 24px;
+                padding: 2px 14px;
+                border-top: 1px solid #eee;
+                border-right: 1px solid #bbb;
+                border-bottom: 1px solid #bbb;
+                border-left: 1px solid #eee;
+                cursor: pointer;
 
-                dd {
-                  float: left;
-                  margin-right: 5px;
-                  color: #666;
-                  line-height: 24px;
-                  padding: 2px 14px;
-                  border-top: 1px solid #eee;
-                  border-right: 1px solid #bbb;
-                  border-bottom: 1px solid #bbb;
-                  border-left: 1px solid #eee;
-                  cursor: pointer;
-
-                  &.active {
-                    color: green;
-                    border: 1px solid green;
-                  }
+                &.active {
+                  color: green;
+                  border: 1px solid green;
                 }
               }
             }
+          }
 
-            .cartWrap {
-              .controls {
-                width: 48px;
-                position: relative;
-                float: left;
-                margin-right: 15px;
-                .disabled{
-                  cursor: not-allowed !important;
-                  color: #ccc;
-                }
-
-                .itxt {
-                  width: 38px;
-                  height: 37px;
-                  border: 1px solid #ddd;
-                  color: #555;
-                  float: left;
-                  border-right: 0;
-                  text-align: center;
-                }
-
-                .plus,
-                .mins {
-                  width: 15px;
-                  text-align: center;
-                  height: 17px;
-                  line-height: 17px;
-                  background: #f1f1f1;
-                  color: #666;
-                  position: absolute;
-                  right: -8px;
-                  border: 1px solid #ccc;
-                }
-
-                .mins {
-                  right: -8px;
-                  top: 19px;
-                  border-top: 0;
-                }
-
-                .plus {
-                  right: -8px;
-                }
+          .cartWrap {
+            .controls {
+              width: 48px;
+              position: relative;
+              float: left;
+              margin-right: 15px;
+              .disabled {
+                cursor: not-allowed !important;
+                color: #ccc;
               }
 
-              .add {
+              .itxt {
+                width: 38px;
+                height: 37px;
+                border: 1px solid #ddd;
+                color: #555;
                 float: left;
+                border-right: 0;
+                text-align: center;
+              }
 
-                a {
-                  background-color: #e1251b;
-                  padding: 0 25px;
-                  font-size: 16px;
-                  color: #fff;
-                  height: 36px;
-                  line-height: 36px;
-                  display: block;
+              .plus,
+              .mins {
+                width: 15px;
+                text-align: center;
+                height: 17px;
+                line-height: 17px;
+                background: #f1f1f1;
+                color: #666;
+                position: absolute;
+                right: -8px;
+                border: 1px solid #ccc;
+              }
+
+              .mins {
+                right: -8px;
+                top: 19px;
+                border-top: 0;
+              }
+
+              .plus {
+                right: -8px;
+              }
+            }
+
+            .add {
+              float: left;
+
+              a {
+                background-color: #e1251b;
+                padding: 0 25px;
+                font-size: 16px;
+                color: #fff;
+                height: 36px;
+                line-height: 36px;
+                display: block;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .product-detail {
+    width: 1200px;
+    margin: 30px auto 0;
+    overflow: hidden;
+
+    .aside {
+      width: 210px;
+      float: left;
+      border: 1px solid #ccc;
+
+      .tabWraped {
+        height: 40px;
+
+        h4 {
+          border-top: 3px solid #fff;
+          float: left;
+          line-height: 37px;
+          width: 105px;
+          text-align: center;
+          border-bottom: 1px solid #ccc;
+
+          &.active {
+            border-top: 3px solid #e1251b;
+            border-bottom: 0;
+            font-weight: normal;
+          }
+        }
+      }
+
+      .tabContent {
+        padding: 10px;
+
+        .tab-pane {
+          display: none;
+
+          &.active {
+            display: block;
+          }
+
+          &:nth-child(1) {
+            .partList {
+              overflow: hidden;
+
+              li {
+                width: 50%;
+                float: left;
+                border-bottom: 1px dashed #ededed;
+                line-height: 28px;
+              }
+            }
+
+            .goodsList {
+              & > li {
+                margin: 5px 0 15px;
+                border-bottom: 1px solid #ededed;
+                padding-bottom: 5px;
+
+                .list-wrap {
+                  .p-img {
+                    text-align: center;
+
+                    img {
+                      width: 152px;
+                    }
+                  }
+
+                  .price {
+                    font-size: 16px;
+                    color: #c81623;
+                  }
+
+                  .operate {
+                    text-align: center;
+                    margin: 5px 0;
+
+                    a {
+                      background-color: transparent;
+                      border: 1px solid #8c8c8c;
+                      color: #8c8c8c;
+                      display: inline-block;
+                      padding: 2px 14px;
+                      line-height: 18px;
+                    }
+                  }
                 }
               }
             }
@@ -654,38 +758,158 @@
       }
     }
 
-    .product-detail {
-      width: 1200px;
-      margin: 30px auto 0;
-      overflow: hidden;
+    .detail {
+      width: 980px;
+      float: right;
 
-      .aside {
-        width: 210px;
-        float: left;
-        border: 1px solid #ccc;
+      .fitting {
+        border: 1px solid #ddd;
+        margin-bottom: 15px;
 
-        .tabWraped {
-          height: 40px;
+        .kt {
+          border-bottom: 1px solid #ddd;
+          background: #f1f1f1;
+          color: #333;
+          padding: 5px 0 5px 15px;
+        }
 
-          h4 {
-            border-top: 3px solid #fff;
-            float: left;
-            line-height: 37px;
-            width: 105px;
+        .good-suits {
+          height: 170px;
+          padding-top: 10px;
+
+          .master {
+            width: 127px;
+            height: 165px;
             text-align: center;
-            border-bottom: 1px solid #ccc;
+            position: relative;
+            float: left;
+
+            img {
+              width: 87px;
+            }
+
+            p {
+              color: #c81623;
+              font-size: 16px;
+              font-weight: 700;
+            }
+
+            i {
+              position: absolute;
+              top: 48px;
+              right: -25px;
+              font-size: 16px;
+            }
+          }
+
+          .suits {
+            width: 668px;
+            height: 165px;
+            float: left;
+
+            .suitsItem {
+              float: left;
+              width: 127px;
+              padding: 0 20px;
+              text-align: center;
+
+              img {
+                width: 120px;
+                height: 130px;
+              }
+
+              p {
+                font-size: 12px;
+              }
+
+              label {
+                display: block;
+                position: relative;
+
+                input {
+                  vertical-align: middle;
+                }
+
+                span {
+                  vertical-align: middle;
+                }
+              }
+            }
+          }
+
+          .result {
+            border-left: 1px solid #ddd;
+            width: 153px;
+            height: 165px;
+            padding-left: 20px;
+            float: left;
+
+            .num {
+              font-size: 14px;
+              margin-bottom: 10px;
+              margin-top: 10px;
+            }
+
+            .price-tit {
+              font-weight: bold;
+              margin-bottom: 10px;
+            }
+
+            .price {
+              color: #b1191a;
+              font-size: 16px;
+              margin-bottom: 10px;
+            }
+
+            .addshopcar {
+              background-color: #e1251b;
+              border: 1px solid #e1251b;
+              padding: 10px 25px;
+              font-size: 16px;
+              color: #fff;
+              display: inline-block;
+              box-sizing: border-box;
+            }
+          }
+        }
+      }
+
+      .intro {
+        .tab-wraped {
+          background: #ededed;
+          // border: 1px solid #ddd;
+          overflow: hidden;
+
+          li {
+            float: left;
+
+            & + li > a {
+              border-left: 1px solid #ddd;
+            }
 
             &.active {
-              border-top: 3px solid #e1251b;
-              border-bottom: 0;
-              font-weight: normal;
+              a {
+                // border: 0;
+                background: #e1251b;
+                color: #fff;
+              }
+            }
+
+            a {
+              display: block;
+              height: 40px;
+              line-height: 40px;
+              padding: 0 11px;
+              text-align: center;
+              color: #666;
+              background: #fcfcfc;
+              border-top: 1px solid #ddd;
+              border-bottom: 1px solid #ddd;
             }
           }
         }
 
-        .tabContent {
-          padding: 10px;
-
+        .tab-content {
           .tab-pane {
             display: none;
 
@@ -694,237 +918,24 @@
             }
 
             &:nth-child(1) {
-              .partList {
-                overflow: hidden;
+              .goods-intro {
+                padding-left: 10px;
 
                 li {
-                  width: 50%;
-                  float: left;
-                  border-bottom: 1px dashed #ededed;
-                  line-height: 28px;
+                  margin: 10px 0;
                 }
               }
 
-              .goodsList {
-                &>li {
-                  margin: 5px 0 15px;
-                  border-bottom: 1px solid #ededed;
-                  padding-bottom: 5px;
-
-                  .list-wrap {
-                    .p-img {
-                      text-align: center;
-
-                      img {
-                        width: 152px;
-                      }
-                    }
-
-                    .price {
-                      font-size: 16px;
-                      color: #c81623;
-                    }
-
-                    .operate {
-                      text-align: center;
-                      margin: 5px 0;
-
-                      a {
-                        background-color: transparent;
-                        border: 1px solid #8c8c8c;
-                        color: #8c8c8c;
-                        display: inline-block;
-                        padding: 2px 14px;
-                        line-height: 18px;
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-
-      .detail {
-        width: 980px;
-        float: right;
-
-        .fitting {
-          border: 1px solid #ddd;
-          margin-bottom: 15px;
-
-          .kt {
-            border-bottom: 1px solid #ddd;
-            background: #f1f1f1;
-            color: #333;
-            padding: 5px 0 5px 15px;
-          }
-
-          .good-suits {
-            height: 170px;
-            padding-top: 10px;
-
-            .master {
-              width: 127px;
-              height: 165px;
-              text-align: center;
-              position: relative;
-              float: left;
-
-              img {
-                width: 87px;
-              }
-
-              p {
-                color: #c81623;
-                font-size: 16px;
-                font-weight: 700;
-              }
-
-              i {
-                position: absolute;
-                top: 48px;
-                right: -25px;
-                font-size: 16px;
-              }
-            }
-
-            .suits {
-              width: 668px;
-              height: 165px;
-              float: left;
-
-              .suitsItem {
-                float: left;
-                width: 127px;
-                padding: 0 20px;
-                text-align: center;
-
+              .intro-detail {
                 img {
-                  width: 120px;
-                  height: 130px;
-                }
-
-                p {
-                  font-size: 12px;
-                }
-
-                label {
-                  display: block;
-                  position: relative;
-
-                  input {
-                    vertical-align: middle;
-                  }
-
-                  span {
-                    vertical-align: middle;
-                  }
+                  width: 100%;
                 }
               }
             }
-
-            .result {
-              border-left: 1px solid #ddd;
-              width: 153px;
-              height: 165px;
-              padding-left: 20px;
-              float: left;
-
-              .num {
-                font-size: 14px;
-                margin-bottom: 10px;
-                margin-top: 10px;
-              }
-
-              .price-tit {
-                font-weight: bold;
-                margin-bottom: 10px;
-              }
-
-              .price {
-                color: #B1191A;
-                font-size: 16px;
-                margin-bottom: 10px;
-              }
-
-              .addshopcar {
-                background-color: #e1251b;
-                border: 1px solid #e1251b;
-                padding: 10px 25px;
-                font-size: 16px;
-                color: #fff;
-                display: inline-block;
-                box-sizing: border-box;
-              }
-            }
-          }
-        }
-
-        .intro {
-          .tab-wraped {
-            background: #ededed;
-            // border: 1px solid #ddd;
-            overflow: hidden;
-
-            li {
-              float: left;
-
-              &+li>a {
-                border-left: 1px solid #ddd;
-              }
-
-              &.active {
-                a {
-                  // border: 0;
-                  background: #e1251b;
-                  color: #fff;
-                }
-              }
-
-              a {
-                display: block;
-                height: 40px;
-                line-height: 40px;
-                padding: 0 11px;
-                text-align: center;
-                color: #666;
-                background: #fcfcfc;
-                border-top: 1px solid #ddd;
-                border-bottom: 1px solid #ddd;
-              }
-            }
-          }
-
-          .tab-content {
-            .tab-pane {
-              display: none;
-
-              &.active {
-                display: block;
-              }
-
-              &:nth-child(1) {
-                .goods-intro {
-                  padding-left: 10px;
-
-                  li {
-                    margin: 10px 0;
-                  }
-                }
-
-                .intro-detail {
-                  img {
-                    width: 100%;
-                  }
-                }
-              }
-            }
-
           }
         }
       }
     }
   }
+}
 </style>
