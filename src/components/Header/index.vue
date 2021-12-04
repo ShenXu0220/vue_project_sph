@@ -1,6 +1,7 @@
 <template>
   <!-- 头部 -->
   <header class="header">
+    {{ $store.state.user.userInfo }}
     <!-- 头部的第一行 -->
     <div class="top">
       <div class="container">
@@ -63,24 +64,25 @@ export default {
   methods: {
     toSearch() {
       // console.log(this.$route.query)
-      const {query} = this.$route
+      const { query } = this.$route;
       this.$router.push({
-        path:"/search",
-        query:{
+        path: "/search",
+        query: {
           ...query,
-          keyword:this.keyword || undefined
-        }
-      }); 
+          keyword: this.keyword || undefined,
+        },
+      });
     },
   },
-  mounted(){
-    this.$bus.$on('clear-keyword', ()=>{
-      this.keyword = ''
-    })
+  mounted() {
+    this.$bus.$on("clear-keyword", () => {
+      this.keyword = "";
+    }),
+      this.$store.dispatch("getUserInfo");
   },
-  beforeDestroy(){
-    this.$bus.$off('clear-keyword')
-  }
+  beforeDestroy() {
+    this.$bus.$off("clear-keyword");
+  },
 };
 </script>
 

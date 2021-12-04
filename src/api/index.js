@@ -21,6 +21,11 @@ export const reqCheckAllSkuInCart = (isChecked,skuIdList) => ajax.post(`/cart/ba
 export const reqDeleteSkuInCart = (skuId) => ajax.delete(`/cart/deleteCart/${ skuId }`);
 // 批量删除选中的商品接口
 export const reqDeleteAllSkuInCart = (skuIdList) => ajax.delete('/cart/batchDeleteCart',{data:skuIdList});
-
-
-
+// 用于发送验证码
+export const reqVerifyCode = (phone) => ajax.get(`/user/passport/sendCode/${phone}`);
+// 用于注册的接口
+export const reqRegister = (params) => ajax.post('/user/passport/register', params);
+// 用于登录接口
+export const reqLogin = (loginParams) => ajax.post('/user/passport/login', loginParams);
+// 通过token来获取用户信息
+export const reqUserInfo = () => ajax.get('/user/passport/auth/getUserInfo');
