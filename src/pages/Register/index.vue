@@ -8,29 +8,53 @@
       </h3>
       <div class="content">
         <label>手机号:</label>
-        <input v-model="phone" type="text" placeholder="请输入你的手机号">
-        <!-- <span class="error-msg">错误提示信息</span> -->
+        <input 
+          v-model="phone" 
+          type="text" 
+          placeholder="请输入你的手机号"
+          name="手机号"
+          v-validate="'required|phone_routes'">
+        <span class="error-msg">{{ errors.first('手机号') }}</span>
       </div>
       <div class="content">
         <label>验证码:</label>
-        <input v-model="code" type="text" placeholder="请输入验证码">
+        <input 
+          v-model="code" 
+          type="text" 
+          placeholder="请输入验证码"
+          name="验证码"
+          v-validate="'required|code_routes'">
 				<button @click="getVerifyCode" class="getcode">获取验证码</button>
-        <!-- <span class="error-msg">错误提示信息</span> -->
+        <span class="error-msg">{{ errors.first('验证码') }}</span>
       </div>
       <div class="content">
         <label>登录密码:</label>
-        <input v-model="password" type="text" placeholder="请输入你的登录密码">
-        <!-- <span class="error-msg">错误提示信息</span> -->
+        <input 
+          v-model="password" 
+          type="text" 
+          placeholder="请输入你的登录密码"
+          name="密码"
+          v-validate="'required|psw_routes'">
+        <span class="error-msg">{{ errors.first('密码') }}</span>
       </div>
       <div class="content">
         <label>确认密码:</label>
-        <input v-model="rePassword" type="text" placeholder="请输入确认密码">
-        <!-- <span class="error-msg">错误提示信息</span> -->
+        <input 
+          v-model="rePassword" 
+          type="text" 
+          placeholder="请输入确认密码"
+          name="确认密码"
+          v-validate="{required:true,is:password}">
+        <span class="error-msg">{{ errors.first('确认密码') }}</span>
       </div>
       <div class="controls">
-        <input v-model="agree" name="m1" type="checkbox">
+        <input 
+          v-model="agree" 
+          name="用户协议" 
+          type="checkbox"
+          v-validate="'required|xieyi_routes'">
         <span>同意协议并注册《尚品汇用户协议》</span>
-        <!-- <span class="error-msg">错误提示信息</span> -->
+        <span class="error-msg">{{ errors.first('用户协议') }}</span>
       </div>
       <div class="btn">
         <button @click="handleRegister">完成注册</button>
@@ -76,11 +100,14 @@ import {reqVerifyCode, reqRegister} from '@/api'
         this.code = result.data
       },
       async handleRegister(){
-        const {phone,code,password} = this
-        let result = await reqRegister({phone,code,password}          )
-        if(result.code !== 200) return this.$message.error(result.message)
-        this.$message.success('注册成功')
-        this.$router.push('/login')
+        let validateResult = await this.$validator.validateAll()
+        if(validateResult){
+          const {phone,code,password} = this
+          let result = await reqRegister({phone,code,password})
+          if(result.code !== 200) return this.$message.error(result.message)
+          this.$message.success('注册成功')
+          this.$router.push('/login')
+        }
       }
     }
   }

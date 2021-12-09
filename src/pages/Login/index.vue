@@ -7,12 +7,24 @@
           <div class="content">
             <form action="##">
               <div class="input-text clearFix">
-                <span></span>
-                <input v-model="phone" type="text" placeholder="手机号">
+                <span class="phone"></span>
+                <input 
+                  v-model="phone" 
+                  type="text" 
+                  placeholder="请输入你的手机号"
+                  name="手机号"
+                  v-validate="'required|phone_routes'">
+                <span class="error-msg">{{ errors.first('手机号') }}</span>
               </div>
               <div class="input-text clearFix">
                 <span class="pwd"></span>
-                <input v-model="password" type="text" placeholder="请输入密码">
+                  <input 
+                  v-model="password" 
+                  type="text" 
+                  placeholder="请输入你的登录密码"
+                  name="密码"
+                  v-validate="'required|psw_routes'">
+                <span class="error-msg">{{ errors.first('密码') }}</span>
               </div>
               <button @click.prevent="handleLogin" class="btn">登&nbsp;&nbsp;录</button>
             </form>
@@ -133,7 +145,7 @@
             .input-text {
               margin-bottom: 16px;
 
-              span {
+              .phone {
                 float: left;
                 width: 37px;
                 height: 32px;
@@ -144,7 +156,13 @@
               }
 
               .pwd {
-                background-position: -72px -201px;
+                float: left;
+                width: 37px;
+                height: 32px;
+                border: 1px solid #ccc;
+                background: url(./images/icons.png) no-repeat -72px -201px;
+                box-sizing: border-box;
+                border-radius: 2px 0 0 2px;
               }
 
               input {
@@ -235,6 +253,8 @@
         }
       }
     }
-
+    .error-msg{
+      color: red;
+    }
   }
 </style>
