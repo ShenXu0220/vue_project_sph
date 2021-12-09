@@ -36,6 +36,13 @@ export default [
     path:'/addCart_success',
     name:'addCart_success',
     component: () => import ('@/pages/AddCartSuccess'),
+    beforeEnter: (to, from, next) => {
+      if(from.path.slice(0,7) === '/detail'){
+        next()
+      }else{
+        next('/home')
+      }
+    },
     meta:{ showFooter: true }
   },
   {
@@ -48,18 +55,39 @@ export default [
     path:'/trade',
     name:'trade',
     component: () => import ('@/pages/Trade'),
+    beforeEnter: (to, from, next) => {
+      if(from.path === '/shopCart'){
+        next()
+      }else{
+        next('/home')
+      }
+    },
     meta:{ showFooter: true }
   },
   {
     path:'/pay',
     name:'pay',
     component: () => import ('@/pages/Pay'),
+    beforeEnter: (to, from, next) => {
+      if(from.path === '/trade'){
+        next()
+      }else{
+        next('/home')
+      }
+    },
     meta:{ showFooter: true }
   },
   {
     path:'/paySuccess',
     name:'paySuccess',
     component: () => import ('@/pages/PaySuccess'),
+    beforeEnter: (to, from, next) => {
+      if(from.path === '/pay'){
+        next()
+      }else{
+        next('/home')
+      }
+    },
     meta:{ showFooter: true }
   },
   {

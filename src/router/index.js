@@ -41,6 +41,7 @@ const router = new VueRouter({
   }
 })
 // 设置路由导航
+const authPath = ['/trade','/pay','/paySuccess','/center']//必须是登录状态的时候才能查看的路由
 router.beforeEach( async (to, from ,next)=>{
   const {userToken, userInfo} = store.state.user
   if(userToken){
@@ -58,7 +59,13 @@ router.beforeEach( async (to, from ,next)=>{
       }
     }
   }else{
-    next() 
+    if(authPath.some(item =>{
+      return to.path === item
+    })){
+      next('/login')
+    }else{
+      next()
+    }
   }
 })
 
