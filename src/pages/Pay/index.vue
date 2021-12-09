@@ -116,7 +116,7 @@ import {reqPaymentInfo, reqPaymentState} from '@/api'
             // 心跳请求
             this.timer = setInterval(async ()=>{
               let result = await reqPaymentState(this.orderId)
-              console.log(result)
+              // console.log(result)
               if(result.code === 200){
                 clearInterval(this.timer)
                 this.$message.success('支付成功')

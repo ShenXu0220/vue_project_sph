@@ -62,4 +62,10 @@ export default [
     component: () => import ('@/pages/PaySuccess'),
     meta:{ showFooter: true }
   },
+  {
+    path:'/center',
+    name:'center',
+    component: () => import ('@/pages/Center'),
+    meta:{ showFooter: true }
+  },
 ]
