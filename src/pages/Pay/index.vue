@@ -7,8 +7,8 @@
           <span class="success-info">订单提交成功，请您及时付款，以便尽快为您发货~~</span>
         </h4>
         <div class="paymark">
-          <span class="fl">请您在提交订单<em class="orange time">4小时</em>之内完成支付，超时订单会自动取消。订单号：<em>145687</em></span>
-          <span class="fr"><em class="lead">应付金额：</em><em class="orange money">￥17,654</em></span>
+          <span class="fl">请您在提交订单<em class="orange time">4小时</em>之内完成支付，超时订单会自动取消。订单号：<em>{{orderId}}</em></span>
+          <span class="fr"><em class="lead">应付金额：</em><em class="orange money">￥{{totalFee}}</em></span>
         </div>
       </div>
       <div class="checkout-info">
@@ -31,7 +31,7 @@
         <div class="hr"></div>
 
         <div class="submit">
-          <router-link class="btn" to="/paysuccess">立即支付</router-link>
+          <button class="btn" @click="handlePay" >立即支付</button>
         </div>
         <div class="otherpay">
           <div class="step-tit">
@@ -48,8 +48,88 @@
 </template>
 
 <script>
+import {reqPaymentInfo, reqPaymentState} from '@/api'
+	import QRCode from 'qrcode'
   export default {
     name: 'Pay',
+    data(){
+      return{
+        codeUrl:'',
+        totalFee:99999999,
+        orderId:''
+      }
+    },
+    mounted(){
+      this.getPaymentInfo()
+    },
+    methods:{
+      // 获取订单信息
+      async getPaymentInfo(){
+        const {orderId} = this.$route.query
+        let result = await reqPaymentInfo(orderId)
+        // console.log(result)
+        if(result.code === 200){
+          this.totalFee = result.data.totalFee
+          this.codeUrl = result.data.codeUrl
+          this.orderId = result.data.orderId
+        }else{
+          this.$message.error(result.message)
+        }
+      },
+
+      //点击立即支付按钮的回调
+      async handlePay(){
+          //弹窗具体样式配置
+          const options = {
+              dangerouslyUseHTMLString: true, //让弹窗可以解析html片段
+              center:true, //居中布局
+              showCancelButton:true,//展示关闭按钮
+              showClose:false, //不显示右上角的叉
+              cancelButtonText:'支付遇到问题',
+              confirmButtonText:'已完成支付',
+          }
+          //弹窗
+          try{
+            // 二维码弹窗
+            let base64Url = await QRCode.toDataURL(this.codeUrl)
+            this.$alert(`<img style="width:200px" src="${base64Url}">`, '微信支付', {
+                ...options,
+                callback:async (action)=>{
+                  //  弹窗按钮的逻辑实现
+                  if(action === 'confirm'){
+                    clearInterval(this.timer)
+                    // 询问服务器，是否完成支付
+                    let finalState = await reqPaymentState(this.orderId)
+                    if(finalState === 200){
+                      this.$message.success('恭喜，支付完成！')
+                      // 跳转支付成功页面
+                      this.$router.replace('/paySuccess')
+                    }else{
+                      this.$message.warning('您的订单并未支付成功，请重新扫码支付')
+                    }
+                  }else if(action === 'cancel'){
+                    clearInterval(this.timer)
+                    this.$message.warning('若您支付遇到问题，请致电客服解决！')
+                  }
+                }
+            });
+            // 心跳请求
+            this.timer = setInterval(async ()=>{
+              let result = await reqPaymentState(this.orderId)
+              console.log(result)
+              if(result.code === 200){
+                clearInterval(this.timer)
+                this.$message.success('支付成功')
+                this.$msgbox.close()
+                // 跳转支付成功页面
+                this.$router.replace('/paySuccess')
+              }
+            },2000)
+          }catch(error){
+            this.$message.warning('生成支付二维码失败，请联系管理员')
+          }
+      }
+    }
   }
 </script>
 

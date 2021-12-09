@@ -37,3 +37,9 @@ export const reqUserTrade = () => ajax.get('/order/auth/trade');
 export const reqUserAddressList = () => ajax.get('/user/userAddress/auth/findUserAddressList');
 // 提交订单的接口
 export const reqSubmitOrder = (tradeNo, params) => ajax.post(`/order/auth/submitOrder?tradeNo=${tradeNo}`,params);
+// 请求某订单的具体支付信息
+export const reqPaymentInfo = (orderId) => ajax.get(`/payment/weixin/createNative/${orderId}`);
+// 支付订单状态
+export const reqPaymentState= (orderId) => ajax.get(`/payment/weixin/queryPayStatus/${orderId}`);
+
+
