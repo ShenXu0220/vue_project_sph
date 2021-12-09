@@ -1,5 +1,5 @@
 import {getUserTempId, saveUserToken2Local, getUserTokenFromLocal} from '@/tools/auth'
-import {reqLogin, reqUserInfo} from '@/api'
+import {reqLogin, reqUserInfo, reqUserExit} from '@/api'
 import {Message} from 'element-ui'
 
 const actions = {
@@ -17,6 +17,17 @@ const actions = {
     let result = await reqUserInfo()
     if(result.code === 200){
       miniStore.commit('SAVE_USER_INFO', result.data)
+      return 'ok'
+    }else{
+      Message.error(result.message)
+      return Promise.reject(result.message)
+    }
+  },
+  // 退出登录
+  async getUserExit(miniStore){
+    let result = await reqUserExit()
+    if(result.code === 200){
+      miniStore.commit('SAVE_USER_EXIT')
     }else{
       Message.error(result.message)
     }
@@ -29,6 +40,10 @@ const mutations = {
   },
   SAVE_USER_INFO(state, info){
     state.userInfo = info
+  },
+  SAVE_USER_EXIT(state){
+    state.userInfo = {}
+    state.userToken = ''
   }
 }
 

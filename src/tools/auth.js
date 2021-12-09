@@ -20,3 +20,7 @@ export function saveUserToken2Local(token){
 export function getUserTokenFromLocal() {
   return localStorage.getItem('userToken')
 }
+// 删除localStorage中的token
+export function removeUserToken() {
+  return localStorage.removeItem('userToken')
+}

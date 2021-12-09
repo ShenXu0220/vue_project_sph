@@ -44,4 +44,16 @@ export default [
     component: () => import ('@/pages/ShopCart'),
     meta:{ showFooter: true }
   },
+  {
+    path:'/trade',
+    name:'trade',
+    component: () => import ('@/pages/Trade'),
+    meta:{ showFooter: true }
+  },
+  {
+    path:'/pay',
+    name:'pay',
+    component: () => import ('@/pages/Pay'),
+    meta:{ showFooter: true }
+  },
 ]

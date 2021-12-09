@@ -1,16 +1,19 @@
 <template>
   <!-- 头部 -->
   <header class="header">
-    {{ $store.state.user.userInfo }}
     <!-- 头部的第一行 -->
     <div class="top">
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-show="!name">
             <span>请</span>
             <router-link to="/login">登录</router-link>
             <router-link to="/register" class="register">免费注册</router-link>
+          </p>
+          <p v-show="name">
+            <span>{{name}}</span>
+            <a class="register" @click="handleExit">退出登录</a>
           </p>
         </div>
         <div class="typeList">
@@ -54,12 +57,21 @@
 </template>
 
 <script>
+import {reqUserExit} from '@/api'
+import {removeUserToken} from '@/tools/auth'
+import {mapState} from 'vuex'
+
 export default {
   name: "Header",
   data() {
     return {
       keyword: "",
     };
+  },
+  computed:{
+    ...mapState({
+      name:state => state.user.userInfo.name
+    })
   },
   methods: {
     toSearch() {
@@ -73,12 +85,33 @@ export default {
         },
       });
     },
+   // 退出登录
+   handleExit(){
+     this.$confirm('确定要退出吗', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          callback: async (action) =>{
+            //  当点击确定时
+            if(action === 'confirm'){
+              let result = await reqUserExit()
+              if(result.code !== 200) return this.$message.error(result.message)
+              this.$message.success(result.message)
+              // 删除token，清理数据
+              removeUserToken()
+              this.$store.state.user.userToken = ''
+              this.$store.state.user.userInfo = {}
+              // 跳转到login
+              this.$router.push('/login')
+            }
+          }
+      })
+    }
   },
   mounted() {
     this.$bus.$on("clear-keyword", () => {
       this.keyword = "";
-    }),
-      this.$store.dispatch("getUserInfo");
+    })
   },
   beforeDestroy() {
     this.$bus.$off("clear-keyword");

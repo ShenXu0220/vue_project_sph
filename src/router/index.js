@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './routes'
 import store from '@/store'
+import {removeUserToken} from '@/tools/auth'
 
 Vue.use(VueRouter)
 
@@ -28,7 +29,7 @@ VueRouter.prototype.replace = function(location,okCallback,errCallback){
   }
  }
 
-let router = new VueRouter({
+const router = new VueRouter({
   mode:'history',
   routes,
   scrollBehavior (to, from, savedPosition) {
@@ -39,13 +40,26 @@ let router = new VueRouter({
     }
   }
 })
-router.beforeEach((to, from ,next)=>{
-  if(to.path === '/login'){
-    return next()
-  } else if (localStorage.getItem('userToken')){
-    store.dispatch('getUserInfo')
+// 设置路由导航
+router.beforeEach( async (to, from ,next)=>{
+  const {userToken, userInfo} = store.state.user
+  if(userToken){
+    if(userInfo.id){
+      next()
+    }else{
+      try{
+        await store.dispatch('getUserInfo')
+        next()
+      }catch(error){
+        removeUserToken()
+        store.state.user.userInfo = {}
+        store.state.user.userToken = ''
+        next('/login')
+      }
+    }
+  }else{
+    next() 
   }
-  next()
 })
 
 export default router

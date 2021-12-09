@@ -40,7 +40,7 @@
       </div>
     </div>
     <!-- 表尾 -->
-    <div class="cart-tool">
+    <div class="cart-tool" v-show="shopCartList.length">
       <div class="select-all">
         <input @click="handleCheckAll" :checked="isAll" class="chooseAll" type="checkbox">
         <span>全选</span>
@@ -56,7 +56,7 @@
           <i class="summoney">{{totalPrice}}</i>
         </div>
         <div class="sumbtn">
-          <a class="sum-btn" href="###" target="_blank">结算</a>
+          <router-link class="sum-btn" to="/trade" >结算</router-link>
         </div>
       </div>
     </div>

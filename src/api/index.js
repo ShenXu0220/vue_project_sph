@@ -29,3 +29,11 @@ export const reqRegister = (params) => ajax.post('/user/passport/register', para
 export const reqLogin = (loginParams) => ajax.post('/user/passport/login', loginParams);
 // 通过token来获取用户信息
 export const reqUserInfo = () => ajax.get('/user/passport/auth/getUserInfo');
+// 退出登录的接口
+export const reqUserExit = () => ajax.get('/user/passport/logout');
+// 获取交易页面信息
+export const reqUserTrade = () => ajax.get('/order/auth/trade');
+// 获取用户地址信息
+export const reqUserAddressList = () => ajax.get('/user/userAddress/auth/findUserAddressList');
+// 提交订单的接口
+export const reqSubmitOrder = (tradeNo, params) => ajax.post(`/order/auth/submitOrder?tradeNo=${tradeNo}`,params);
